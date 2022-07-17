@@ -4,19 +4,36 @@ from itertools import combinations
 lien_csv = 'actions.csv'
 
 ligne_action = 0
-budget = 500
+BUDGET = 500
 
 def calculer_actions():
+    """
+    notre fichier csv est lu 
+    on calcule le profit potentiel par action
+    on retourne ça dans un tableau
+
+    Returns:
+        array: toutes les actions sont conservées dans un tableau
+    """
     actions = []
     with open (lien_csv) as f:
         fichier_csv = csv.DictReader(f)
         for row in fichier_csv:
-            action = (row['nom'], int(row['prix']), (int(row['benefice']) * 0.01) * int(row['prix']))
+            action = (row['name'], int(row['price']), (int(row['profit']) * 0.01) * int(row['price']))
             actions.append(action)
     return actions
 
 
 def calculer_toutes_combinaisons(actions):
+    """
+    on calcule toutes les combinaisons possibles
+
+    Args:
+        actions (array): toutes les actions
+
+    Returns:
+        array: retourn un tableau avec toutes les combinaisons possibles
+    """
     total_combinations = []
     for i in range(len(actions)):
         combi = combinations(actions, i)
@@ -27,6 +44,17 @@ def calculer_toutes_combinaisons(actions):
 
 
 def selectionner_combinaisons_valides(total_combinaisons, budget):
+    """
+    on garde toutes les combinaisons qui ne dépassent pas notre budget
+
+    Args:
+        total_combinaisons (array): le tableau stockant toutes les combinaisons possibles
+        budget (int): notre budget est une constante de 500 euros
+
+    Returns:
+        array: on retourne un tableau avec toutes les combinaisons avec un budget
+               inférieur au notre
+    """
     combinaisons_valides = []
     for combinaison in total_combinaisons:
         combinaison_prix = 0
@@ -40,6 +68,13 @@ def selectionner_combinaisons_valides(total_combinaisons, budget):
 
 
 def selectionner_meilleure_combinaison(valides_combinaisons):
+    """
+    on calcule la combinaison la plus rentable
+
+    Args:
+        valides_combinaisons (array): toutes les combinaisons avec un prix inférieur au budget
+
+    """
     optimale_solution = None
     max_prix = 0
     max_benefice = 0
@@ -55,4 +90,4 @@ def selectionner_meilleure_combinaison(valides_combinaisons):
     print(f"\nLe profit maximum est de {round(max_benefice,2)}€ \nPour un investissement est de {max_prix}€\n")
 
 combinaisons = calculer_toutes_combinaisons(calculer_actions())
-selectionner_meilleure_combinaison(selectionner_combinaisons_valides(combinaisons, budget))
+selectionner_meilleure_combinaison(selectionner_combinaisons_valides(combinaisons, BUDGET))
