@@ -1,5 +1,6 @@
 import csv
 from itertools import combinations
+import time
 
 lien_csv = 'actions.csv'
 
@@ -32,14 +33,13 @@ def calculer_toutes_combinaisons(actions):
         actions (array): toutes les actions
 
     Returns:
-        array: retourn un tableau avec toutes les combinaisons possibles
+        array: retourne un tableau avec toutes les combinaisons possibles
     """
     total_combinations = []
     for i in range(len(actions)):
         combi = combinations(actions, i)
         for comb in combi:
             total_combinations.append(comb)
-    print(len(total_combinations))
     return total_combinations
 
 
@@ -83,11 +83,15 @@ def selectionner_meilleure_combinaison(valides_combinaisons):
             max_benefice = combinaison[2]
             max_prix = combinaison[1]
             optimale_solution = combinaison[0]
+    
     print()
     print(f"#"*10 + "    Résultats:   " + "#"*10)
     print(f"La combinaison la plus rentable est :\n"
-          f"\n{optimale_solution}")
+          f"\n{[ action[0] for action in optimale_solution ]}")
     print(f"\nLe profit maximum est de {round(max_benefice,2)}€ \nPour un investissement est de {max_prix}€\n")
 
+debut = time.time()
 combinaisons = calculer_toutes_combinaisons(calculer_actions())
 selectionner_meilleure_combinaison(selectionner_combinaisons_valides(combinaisons, BUDGET))
+fin = time.time()
+print(f"temps d'éxécution : {fin - debut} seconds")

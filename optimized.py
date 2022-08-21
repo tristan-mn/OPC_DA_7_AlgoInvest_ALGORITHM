@@ -86,7 +86,7 @@ def sacAdos_dynamique(budget, actions):
                 # optimisée de la ligne précédente
                 matrice[i][j] = matrice[i-1][j]
 
-    # Retrouver les actions en fonction du coût
+    # Retrouver les actions en fonction du coût optimal trouvé
     w = budget
     n = len(actions)
     actions_selection = []
@@ -100,9 +100,9 @@ def sacAdos_dynamique(budget, actions):
 
     cout_total = sum([action[1] for action in actions_selection])
 
-    print("Résultat optimisé :")
-    print(f"La combinaison optimale est {[action[0] for action in actions_selection]}")
-    print(f"Le profit maximum est de {round(matrice[-1][-1], 2)}€ pour un investissement de {cout_total}€")
+    print("Résultat optimisé:")
+    print(f"\nLa combinaison optimale est:\n{[action[0] for action in actions_selection]}")
+    print(f"\nLe profit maximum est de:\n{round(matrice[-1][-1], 2)}€ pour un investissement de {cout_total}€")
 
     return matrice[-1][-1], actions_selection
 
@@ -145,15 +145,12 @@ def sacAdos_dynamique_dixieme(budget, actions):
             actions_selection.append(action)
             w -= action[1]
         n -= 1
-    print(actions_selection)
-    print([action[1] for action in actions_selection])
-    print(matrice[-1][-1])
-    print()
+    
     cout_total = sum([action[1]/10 for action in actions_selection])
 
-    print("Résultat optimisé :")
-    print(f"La combinaison optimale est {[action[0] for action in actions_selection]}")
-    print(f"Le profit maximum est de {round(matrice[-1][-1], 2)}€ pour un investissement de {round(cout_total, 2)}€")
+    print("Résultat optimisé :\n")
+    print(f"La combinaison optimale est:\n{[action[0] for action in actions_selection]}")
+    print(f"\nLe profit maximum est de: \n{round(matrice[-1][-1], 2)}€ pour un investissement de {round(cout_total, 2)}€")
 
     return matrice[-1][-1], actions_selection
 
@@ -161,11 +158,11 @@ def sacAdos_dynamique_dixieme(budget, actions):
 
 fichier = choix_fichier()
 actions = calculer_actions(fichier)
-print('Analyse en cours, veuillez patienter')
+print('\n.... Analyse en cours, veuillez patienter ....\n')
 start = time.time()
 if fichier == "1":
     sacAdos_dynamique(BUDGET, actions)
 else:
     sacAdos_dynamique_dixieme(BUDGET * 10, actions)
 end = time.time()
-print(f"temps d'éxécution: {round(end - start, 3)} secondes")
+print(f"\ntemps d'éxécution: {round(end - start, 3)} secondes\n")
